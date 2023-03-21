@@ -26,7 +26,7 @@ namespace CapitalReplacementJob
           
         private readonly IApplication _application;
         //dependency injection
-        public CapitalReplacementApi(CosmosClient cosmosClient, IHostingEnvironment env, IApplication application)
+        public CapitalReplacementApi(IApplication application)
         {
            _application = application;
         }
