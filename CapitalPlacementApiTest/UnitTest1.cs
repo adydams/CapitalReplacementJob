@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Reflection;
 using Xunit.Sdk;
 using static CapitalPlacementApiTest.UnitTest1;
 using static System.Net.Mime.MediaTypeNames;
@@ -18,16 +19,37 @@ namespace CapitalPlacementApiTest
     [TestClass]
     public class UnitTest1
     {
+        //[TestMethod]
+        //public void TestMethod1()
+        //{
+        //    var result = CapitalReplacementJob.Function1.Run(UnitTestFactory.GetHttpRequest(), null);
+        //    Assert.IsNotNull(result);
+        //    //var result = await CapitalReplacementApi.GetApplications(UnitTestFactory.GetHttpRequest());
+        //    var expectedValue = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
+        //    var actualValue = ((OkObjectResult)result.Result).Value.ToString();
+        //    Assert.IsNotNull(actualValue);
+        //    Assert.AreEqual(expectedValue, actualValue);
+        //}
+
+
         [TestMethod]
-        public void TestMethod1()
+        public void TestCreateApplication()
         {
-            var result = CapitalReplacementJob.Function1.Run(UnitTestFactory.GetHttpRequest(), null);
-            Assert.IsNotNull(result);
-            //var result = await CapitalReplacementApi.GetApplications(UnitTestFactory.GetHttpRequest());
-            var expectedValue = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
-            var actualValue = ((OkObjectResult)result.Result).Value.ToString();
-            Assert.IsNotNull(actualValue);
-            Assert.AreEqual(expectedValue, actualValue);
+            //mock implementation of service using Moq with expected behavior
+            var serviceMock = Mock.Of<IApplication>();
+            //the system under test
+            var sut = new CapitalReplacementApi(serviceMock);
+            //Act
+            var logger = NullLoggerFactory.Instance.CreateLogger("Null Logger");
+            Task<IActionResult> result = sut.CreateApplication(UnitTestFactory.HttpRequest(), logger);//exercise method under test
+
+            //Assert
+            Assert.IsNotNull(result);//verify that expectations have been met
+
+            // Assert
+            //Assert.IsNotNull(result.Result);
+            //var presentations = result.Result as ApplicationModel;
+            //Assert.IsNotNull(presentations);
         }
 
         [TestMethod]
@@ -39,10 +61,13 @@ namespace CapitalPlacementApiTest
             var sut = new CapitalReplacementApi(serviceMock);
             //Act
             var logger = NullLoggerFactory.Instance.CreateLogger("Null Logger");
-            var result =  sut.GetApplications(UnitTestFactory.GetHttpRequest(), logger);//exercise method under test
+            Task<IActionResult> result =  sut.GetApplications(UnitTestFactory.GetHttpRequest(), logger);//exercise method under test
 
             //Assert
             Assert.IsNotNull(result);//verify that expectations have been met
+                                   
+            //var presentations = result.Result as List<ApplicationModel>;
+            //Assert.IsNotNull(presentations);
         }
 
         [TestMethod]
@@ -61,6 +86,7 @@ namespace CapitalPlacementApiTest
             //Assert
             Assert.IsNotNull(result);//verify that expectations have been met
         }
+
 
     }
 
