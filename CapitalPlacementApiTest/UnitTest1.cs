@@ -41,7 +41,7 @@ namespace CapitalPlacementApiTest
             var sut = new CapitalReplacementApi(serviceMock);
             //Act
             var logger = NullLoggerFactory.Instance.CreateLogger("Null Logger");
-            Task<IActionResult> result = sut.CreateApplication(UnitTestFactory.HttpRequest(), logger);//exercise method under test
+            Task<IActionResult> result = sut.CreateApplication(UnitTestFactory.HttpRequest(true), logger);//exercise method under test
 
             //Assert
             Assert.IsNotNull(result);//verify that expectations have been met
@@ -87,6 +87,45 @@ namespace CapitalPlacementApiTest
             Assert.IsNotNull(result);//verify that expectations have been met
         }
 
+
+        [TestMethod]
+        public void TestUpdateApplication()
+        {
+            //mock implementation of service using Moq with expected behavior
+            var serviceMock = Mock.Of<IApplication>();
+            //the system under test
+            var sut = new CapitalReplacementApi(serviceMock);
+            //Act
+            var logger = NullLoggerFactory.Instance.CreateLogger("Null Logger");
+            string id = "952fb805-7f33-4b4f-8dba-0ad9f7f854c0";
+            string category = "Job test";
+            Task<IActionResult> result = sut.UpdateApplication(UnitTestFactory.HttpRequest(true), logger, id, category);//exercise method under test
+
+            //Assert
+            Assert.IsNotNull(result);//verify that expectations have been met
+
+            // Assert
+            //Assert.IsNotNull(result.Result);
+            //var presentations = result.Result as ApplicationModel;
+            //Assert.IsNotNull(presentations);
+        }
+
+        [TestMethod]
+        public void TestDeleteApplicationById()
+        {
+            //mock implementation of service using Moq with expected behavior
+            var serviceMock = Mock.Of<IApplication>();
+            //the system under test
+            var sut = new CapitalReplacementApi(serviceMock);
+            //Act
+            var logger = NullLoggerFactory.Instance.CreateLogger("Null Logger");
+            string id = "952fb805-7f33-4b4f-8dba-0ad9f7f854c0";
+            string category = "Job test";
+            var result = sut.DeleteApplication(UnitTestFactory.GetHttpRequest(), logger, id, category);//exercise method under test
+
+            //Assert
+            Assert.IsNotNull(result);//verify that expectations have been met
+        }
 
     }
 
